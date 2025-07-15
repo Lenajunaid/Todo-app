@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  let todos = []; 
+  let todos = [];
 
   const container = document.querySelector(".container");
   const ul = document.createElement("ul");
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ul.appendChild(li);
     });
 
-    counter.textContent = `Total: ${todos.length}`;
+    counter.textContent = 'Total: ${todos.length}';
   }
 
   form.addEventListener("submit", e => {
@@ -67,5 +67,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTodos(searchInput.value);
   });
 
-  renderTodos();
+  window.addEventListener("load", () => {
+    fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("todos:", data);
+        todos = data.map((item) => ({
+          text: item.title
+        }));
+        renderTodos();
+      });
+  });
 });
